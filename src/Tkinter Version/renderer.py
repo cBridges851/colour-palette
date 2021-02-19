@@ -71,10 +71,7 @@ class Renderer():
         self.hex_input.configure(
             width=8,
         )
-        self.hex_input.grid(
-            row=1, 
-            column=1
-        )
+        self.hex_input.grid(row=1, column=1)
 
     def render_rgb_frame(self):
         """
