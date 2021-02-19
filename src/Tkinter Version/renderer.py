@@ -64,7 +64,7 @@ class Renderer():
         )
         self.rgb_frame.grid(row=2, column=0)
         
-    def render_colour_labels(self):
+    def render_rgb_colour_labels(self):
         labels = [self.red_label, self.green_label, self.blue_label]
         column_counter = 0
 
@@ -76,7 +76,7 @@ class Renderer():
             label.grid(row=0, column=column_counter)
             column_counter += 2
 
-    def render_colour_inputs(self):
+    def render_rgb_colour_inputs(self):
         colour_inputs = [
             self.red_input, 
             self.green_input, 
@@ -104,8 +104,8 @@ class Renderer():
         self.render_hex_input()
 
         self.render_rgb_frame()
-        self.render_colour_labels()
-        self.render_colour_inputs()
+        self.render_rgb_colour_labels()
+        self.render_rgb_colour_inputs()
 
         self.set_initial_values()
         self.root.mainloop()
