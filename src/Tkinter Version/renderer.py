@@ -1,7 +1,13 @@
 import tkinter as tk
 
 class Renderer():
+    """
+        The class that renders the user interface in the Tkinter version of the application.
+    """
     def __init__(self):
+        """
+            Initialises all the components in the user interface.
+        """
         self.root = tk.Tk()
         self.colour_box = tk.Label(self.root)
 
@@ -18,10 +24,16 @@ class Renderer():
         self.blue_input = tk.Entry(self.rgb_frame)
 
     def render_colour_box(self):
+        """
+            Renders the box that shows the colour
+        """
         self.colour_box.config(background="#FF0000", width="10", height="5")
         self.colour_box.grid(row=0, column=0)
 
     def adjust_window(self):
+        """
+            Sets the properties of the window of the application.
+        """
         self.root.title("Chrispy Colour Palette")
         self.root.iconbitmap("favicon.ico")
         self.root.configure(
@@ -31,6 +43,9 @@ class Renderer():
         )
 
     def render_hex_frame(self):
+        """
+            Renders the section that is for hex value input.
+        """
         self.hex_frame.configure(
             bg="#1D1D1D", 
             fg="#FFFFFF",
@@ -40,6 +55,9 @@ class Renderer():
         self.hex_frame.grid(row=1, column=0)
 
     def render_hex_label(self):
+        """
+            Renders the label for the hex value input.
+        """
         self.hex_label.configure(
             bg="#1D1D1D", 
             fg="#FFFFFF"
@@ -47,6 +65,9 @@ class Renderer():
         self.hex_label.grid(row=1, column=0)
 
     def render_hex_input(self):
+        """
+            Renders the input box for hex inputs
+        """
         self.hex_input.configure(
             width=8,
         )
@@ -56,6 +77,9 @@ class Renderer():
         )
 
     def render_rgb_frame(self):
+        """
+            Renders the section that is for RGB value input.
+        """
         self.rgb_frame.configure(
             bg="#1D1D1D", 
             fg="#FFFFFF",
@@ -65,6 +89,7 @@ class Renderer():
         self.rgb_frame.grid(row=2, column=0)
         
     def render_rgb_colour_labels(self):
+
         labels = [self.red_label, self.green_label, self.blue_label]
         column_counter = 0
 
@@ -77,6 +102,9 @@ class Renderer():
             column_counter += 2
 
     def render_rgb_colour_inputs(self):
+        """
+            Renders the label for the RGB value input.
+        """
         colour_inputs = [
             self.red_input, 
             self.green_input, 
@@ -90,12 +118,18 @@ class Renderer():
             column_counter += 2
 
     def set_initial_values(self):
+        """
+            Sets the values that will be in the boxes when the user first opens the application.
+        """
         self.hex_input.insert(0, "#FF0000")
         self.red_input.insert(0, "255")
         self.green_input.insert(0, "0")
         self.blue_input.insert(0, "0")
 
     def render(self):
+        """
+            Renders the whole application.
+        """
         self.adjust_window()
         self.render_colour_box()
         
