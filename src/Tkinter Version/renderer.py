@@ -27,7 +27,11 @@ class Renderer():
         """
             Renders the box that shows the colour
         """
-        self.colour_box.config(background="#FF0000", width="10", height="5")
+        self.colour_box.configure(
+            background="#FF0000", 
+            width="10", 
+            height="5"
+        )
         self.colour_box.grid(row=0, column=0)
 
     def adjust_window(self):
