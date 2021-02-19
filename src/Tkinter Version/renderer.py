@@ -114,7 +114,9 @@ class Renderer():
         column_counter = 1
 
         for colour_input in colour_inputs:
-            colour_input.configure(width=4)
+            colour_input.configure(
+                width=4
+            )
             colour_input.grid(row=0, column=column_counter)
             column_counter += 2
 
