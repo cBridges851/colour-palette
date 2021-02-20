@@ -20,6 +20,7 @@ class ColourPaletteApp(App):
     """
     def build(self):
         self.title = "Chrispy Colour Palette"
+        self.icon = "favicon.ico"
         return Interface()
 
 if __name__ == "__main__":
