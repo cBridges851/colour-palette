@@ -4,6 +4,9 @@ from kivy.graphics import Rectangle
 from kivy.graphics import Color
 
 class Interface(Widget):
+    """
+        Renders the interface of the application
+    """
     def __init__(self, **kwargs):
         super(Interface, self).__init__(**kwargs)
         
@@ -11,8 +14,10 @@ class Interface(Widget):
             Color(1, 0, 0, 1, mode="rgba")
             self.colour_display = Rectangle(pos=(300, 360), size=(200,200))
 
-
 class ColourPaletteApp(App):
+    """
+        The entry point of the application
+    """
     def build(self):
         self.title = "Chrispy Colour Palette"
         return Interface()

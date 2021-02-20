@@ -1,11 +1,14 @@
 #:kivy 2.0
+# Applies to all text inputs
 <TextInput>
     font_size: 26
     multiline: False
     size_hint: 0.8, 0.5
 
+# Whole Application
 <Interface>
     FloatLayout:
+        # Hex section of the interface
         GridLayout:
             id: hex_section
             cols: 2
@@ -22,6 +25,7 @@
                 size_hint: 3, 0.5
                 font_size: 26
 
+        # RGB section of the interface 
         GridLayout:
             id: rgb_section
             cols: 6
