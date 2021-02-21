@@ -1,7 +1,17 @@
 import matplotlib.colors as colors
 
 class ColourConverter:
+    """
+        Class responsible for converting hex values into RGB and vice versa.
+    """
     def convert_hex_to_rgb(self, hex_value):
+        """
+            Method responsible for converting hex values into RGB.
+            Args:
+                hex_value: string, a colour represented with hexadecimal.
+            Returns:
+                rgb_values: list, each value for red, green and blue.
+        """
         percentage_values = colors.hex2color(hex_value)
         rgb_values = []
 
@@ -11,6 +21,15 @@ class ColourConverter:
         return rgb_values
 
     def convert_rgb_to_hex(self, red, green, blue):
+        """
+            Method responsible for converting RGB values into hexadecimal.
+            Args:
+                red: int, the value representing the amount of red in a colour.
+                green: int, the value representing the amount of green in a colour.
+                blue: int, the value representing the amount of blue in a colour.
+            Returns:
+                string, the hex representation of the colour.
+        """
         hex_colour_values = []
 
         for number in red, green, blue:
