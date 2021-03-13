@@ -21,10 +21,13 @@ class Renderer():
         self.rgb_frame = tk.LabelFrame(self.root, text="RGB")
         self.red_label = tk.Label(self.rgb_frame, text="Red:")
         self.red_input = tk.Entry(self.rgb_frame)
+        self.red_input.bind("<KeyRelease>", self.rgb_updated)
         self.green_label = tk.Label(self.rgb_frame, text="Green:")
         self.green_input = tk.Entry(self.rgb_frame)
+        self.green_input.bind("<KeyRelease>", self.rgb_updated)
         self.blue_label = tk.Label(self.rgb_frame, text="Blue:")
         self.blue_input = tk.Entry(self.rgb_frame)
+        self.blue_input.bind("<KeyRelease>", self.rgb_updated)
 
     def render_colour_box(self):
         """
@@ -166,5 +169,18 @@ class Renderer():
         except Exception:
             pass
 
+    def rgb_updated(self, event):
+        try:
+            red = int(self.red_input.get())
+            green = int(self.green_input.get())
+            blue = int(self.blue_input.get())
+            hex_value = ColourConverter().convert_rgb_to_hex(red, green, blue)
+            self.colour_box.configure(
+                background=f"#{hex_value}", 
+            )
+            self.hex_input.delete(0, "end")
+            self.hex_input.insert(0, hex_value)
+        except Exception:
+            pass
 
 Renderer().render()
