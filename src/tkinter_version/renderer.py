@@ -166,7 +166,7 @@ class Renderer():
             self.green_input.insert(0, rgb_values[1])
             self.blue_input.delete(0, "end")
             self.blue_input.insert(0, rgb_values[2])
-        except Exception:
+        except:
             pass
 
     def rgb_updated(self, event):
@@ -180,7 +180,7 @@ class Renderer():
             )
             self.hex_input.delete(0, "end")
             self.hex_input.insert(0, hex_value)
-        except Exception:
+        except:
             pass
 
 Renderer().render()
