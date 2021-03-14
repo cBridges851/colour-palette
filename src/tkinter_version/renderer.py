@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter.constants import SOLID
+from colour_converter import ColourConverter
 
 class Renderer():
     """
@@ -12,16 +14,20 @@ class Renderer():
         self.colour_box = tk.Label(self.root)
 
         self.hex_frame = tk.LabelFrame(self.root, text="Hex")
-        self.hex_label = tk.Label(self.hex_frame, text="Hex:")
+        self.hex_label = tk.Label(self.hex_frame, text="Hex: #")
         self.hex_input = tk.Entry(self.hex_frame)
+        self.hex_input.bind("<KeyRelease>", self.hex_updated)
 
         self.rgb_frame = tk.LabelFrame(self.root, text="RGB")
         self.red_label = tk.Label(self.rgb_frame, text="Red:")
         self.red_input = tk.Entry(self.rgb_frame)
+        self.red_input.bind("<KeyRelease>", self.rgb_updated)
         self.green_label = tk.Label(self.rgb_frame, text="Green:")
         self.green_input = tk.Entry(self.rgb_frame)
+        self.green_input.bind("<KeyRelease>", self.rgb_updated)
         self.blue_label = tk.Label(self.rgb_frame, text="Blue:")
         self.blue_input = tk.Entry(self.rgb_frame)
+        self.blue_input.bind("<KeyRelease>", self.rgb_updated)
 
     def render_colour_box(self):
         """
@@ -124,7 +130,7 @@ class Renderer():
         """
             Sets the values that will be in the boxes when the user first opens the application.
         """
-        self.hex_input.insert(0, "#FF0000")
+        self.hex_input.insert(0, "FF0000")
         self.red_input.insert(0, "255")
         self.green_input.insert(0, "0")
         self.blue_input.insert(0, "0")
@@ -146,5 +152,39 @@ class Renderer():
 
         self.set_initial_values()
         self.root.mainloop()
+
+    def hex_updated(self, event):
+        try:
+            hex_value = self.hex_input.get()
+            self.colour_box.configure(
+                background=f"#{hex_value}", 
+            )
+            rgb_values = ColourConverter().convert_hex_to_rgb(f"#{hex_value}")
+            self.red_input.delete(0, "end")
+            self.red_input.insert(0,rgb_values[0])
+            self.green_input.delete(0, "end")
+            self.green_input.insert(0, rgb_values[1])
+            self.blue_input.delete(0, "end")
+            self.blue_input.insert(0, rgb_values[2])
+        except tk.TclError:
+            pass
+        except ValueError:
+            pass
+
+    def rgb_updated(self, event):
+        try:
+            red = int(self.red_input.get())
+            green = int(self.green_input.get())
+            blue = int(self.blue_input.get())
+            hex_value = ColourConverter().convert_rgb_to_hex(red, green, blue)
+            self.colour_box.configure(
+                background=f"#{hex_value}", 
+            )
+            self.hex_input.delete(0, "end")
+            self.hex_input.insert(0, hex_value)
+        except tk.TclError:
+            pass
+        except ValueError:
+            pass
 
 Renderer().render()
