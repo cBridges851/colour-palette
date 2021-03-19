@@ -1,7 +1,10 @@
+import kivy
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.graphics import Color
+from colour_converter import ColourConverter
+import matplotlib
 
 class Interface(Widget):
     """
