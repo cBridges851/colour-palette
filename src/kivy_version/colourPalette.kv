@@ -1,0 +1,50 @@
+#:kivy 2.0
+# Applies to all text inputs
+<TextInput>
+    font_size: 26
+    multiline: False
+    size_hint: 0.8, 0.1
+
+# Whole Application
+<Interface>
+    FloatLayout:
+        # Hex section of the interface
+        GridLayout:
+            id: hex_section
+            cols: 2
+            pos_hint: {"x": 2.3, "y": 2.5}
+            size_hint: 3, 0.4
+
+            Label:
+                text: "Hex:"
+
+            TextInput:
+                id: hex_value
+                multiline: False
+                size_hint: 3, 0.5
+                font_size: 26
+
+        # RGB section of the interface 
+        GridLayout:
+            id: rgb_section
+            cols: 6
+            pos_hint: {"x": 1.1, "y": 1.5}
+            size_hint: 5, 0.4
+
+            Label:
+                text: "Red:"
+            
+            TextInput:
+                id: red_input
+
+            Label:
+                text: "Green:"
+            
+            TextInput:
+                id: green_input
+
+            Label:
+                text: "Blue:"
+            
+            TextInput:
+                id: blue_input
