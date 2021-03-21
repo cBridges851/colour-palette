@@ -1,4 +1,8 @@
 class ColourConverter:
+    """
+        Class responsible for converting hex values into RGB and vice versa.
+    """
+
     def __init__(self):
         self.a = 10
         self.b = 11 
@@ -6,9 +10,7 @@ class ColourConverter:
         self.d = 13
         self.e = 14
         self.f = 15
-    """
-        Class responsible for converting hex values into RGB and vice versa.
-    """
+    
     def convert_hex_to_rgb(self, hex_value):
         """
             Method responsible for converting hex values into RGB.
@@ -17,6 +19,7 @@ class ColourConverter:
             Returns:
                 rgb_values: list, each value for red, green and blue.
         """
+
         hex_value = hex_value.lstrip('#')
         
         if len(hex_value) == 6:
@@ -36,7 +39,7 @@ class ColourConverter:
 
         rgb_values = [red_hex, green_hex, blue_hex]
 
-        for i in range(len(rgb_values)):
+        for i, item in enumerate(rgb_values):
             number_value = 0
             multiplier = 1
             value_length = len(rgb_values[i])
@@ -83,10 +86,11 @@ class ColourConverter:
             Returns:
                 string, the hex representation of the colour.
         """
+
         hex_colour_values = []
 
         for number in red, green, blue:
-            if number.isdigit() == False:
+            if not str(number).isdigit():
                 return "Invalid"
             
             current_hex_value = hex(number)
@@ -98,3 +102,6 @@ class ColourConverter:
             hex_colour_values.append(current_hex_value)
 
         return "".join(hex_colour_values)
+
+print(ColourConverter().convert_hex_to_rgb("FFFFFF"))
+print(ColourConverter().convert_rgb_to_hex(15, 2, 3))
