@@ -86,6 +86,9 @@ class ColourConverter:
         hex_colour_values = []
 
         for number in red, green, blue:
+            if number.isdigit() == False:
+                return "Invalid"
+            
             current_hex_value = hex(number)
             current_hex_value = current_hex_value[2:].upper()
             
@@ -95,5 +98,3 @@ class ColourConverter:
             hex_colour_values.append(current_hex_value)
 
         return "".join(hex_colour_values)
-
-print(ColourConverter().convert_hex_to_rgb("#FFFFFF"))
