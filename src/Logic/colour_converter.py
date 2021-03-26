@@ -52,6 +52,7 @@ class ColourConverter:
 
                 if current_unit.isalpha():
                     current_unit = current_unit.upper()
+                    
                     if current_unit == "A":
                         current_unit = self.a
                     elif current_unit == "B":
@@ -102,6 +103,3 @@ class ColourConverter:
             hex_colour_values.append(current_hex_value)
 
         return "".join(hex_colour_values)
-
-print(ColourConverter().convert_hex_to_rgb("FFFFFF"))
-print(ColourConverter().convert_rgb_to_hex(15, 2, 3))
