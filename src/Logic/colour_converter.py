@@ -43,6 +43,7 @@ class ColourConverter:
             number_value = 0
             multiplier = 1
             value_length = len(rgb_values[i])
+            
             if value_length == 1:
                 rgb_values[i] = f"{rgb_values[i]}{rgb_values[i]}"
                 value_length = 2
