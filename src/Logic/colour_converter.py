@@ -26,10 +26,6 @@ class ColourConverter:
             red_hex = hex_value[0:2]
             green_hex = hex_value[2:4]
             blue_hex = hex_value[4:6]
-        elif len(hex_value) == 4:
-            red_hex = hex_value[0]
-            green_hex = hex_value[1]
-            blue_hex = hex_value[2:4]
         elif len(hex_value) == 3:
             red_hex = hex_value[0]
             green_hex = hex_value[1]
