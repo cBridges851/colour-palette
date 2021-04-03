@@ -1,4 +1,5 @@
 # colour-palette
+[![CodeFactor](https://www.codefactor.io/repository/github/cbridges851/colour-palette/badge)](https://www.codefactor.io/repository/github/cbridges851/colour-palette)  
 This is a program that converts hex colours to RGB and vice versa.
 
 ## Motivation
