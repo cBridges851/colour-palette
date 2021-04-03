@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter.constants import SOLID
 from colour_converter import ColourConverter
 
 class Renderer():
@@ -28,6 +27,8 @@ class Renderer():
         self.blue_label = tk.Label(self.rgb_frame, text="Blue:")
         self.blue_input = tk.Entry(self.rgb_frame)
         self.blue_input.bind("<KeyRelease>", self.rgb_updated)
+
+        self.invalid_input_background = "#FF726F"
 
     def render_colour_box(self):
         """
@@ -154,37 +155,68 @@ class Renderer():
         self.root.mainloop()
 
     def hex_updated(self, event):
-        try:
-            hex_value = self.hex_input.get()
+        hex_value = self.hex_input.get()
+        rgb_values = ColourConverter().convert_hex_to_rgb(f"#{hex_value}")
+        if rgb_values != "Invalid":
+            self.hex_input.configure(
+                background="#FFFFFF"
+            )
             self.colour_box.configure(
                 background=f"#{hex_value}", 
             )
-            rgb_values = ColourConverter().convert_hex_to_rgb(f"#{hex_value}")
             self.red_input.delete(0, "end")
             self.red_input.insert(0,rgb_values[0])
             self.green_input.delete(0, "end")
             self.green_input.insert(0, rgb_values[1])
             self.blue_input.delete(0, "end")
             self.blue_input.insert(0, rgb_values[2])
-        except tk.TclError:
-            pass
-        except ValueError:
-            pass
+        else:
+            self.hex_input.configure(
+                background=self.invalid_input_background
+            )
+        
 
     def rgb_updated(self, event):
-        try:
-            red = int(self.red_input.get())
-            green = int(self.green_input.get())
-            blue = int(self.blue_input.get())
+        red = self.red_input.get()
+        green = self.green_input.get()
+        blue = self.blue_input.get()
+
+        
+        if red.isdigit() is False or int(red) > 255:
+            self.red_input.configure(
+                background=self.invalid_input_background
+            )
+            return
+        
+        if green.isdigit() is False or int(green) > 255:
+            self.green_input.configure(
+                background=self.invalid_input_background
+            )
+            return
+
+        if blue.isdigit() is False or int(blue) > 255:
+            self.blue_input.configure(
+                background=self.invalid_input_background
+            )
+            return
+
+        if red.isdigit() and green.isdigit() and blue.isdigit():
+            self.red_input.configure(
+                background="#FFFFFF"
+            )
+            self.green_input.configure(
+                background="#FFFFFF"
+            )
+            self.blue_input.configure(
+                background="#FFFFFF"
+            )
             hex_value = ColourConverter().convert_rgb_to_hex(red, green, blue)
             self.colour_box.configure(
                 background=f"#{hex_value}", 
             )
             self.hex_input.delete(0, "end")
             self.hex_input.insert(0, hex_value)
-        except tk.TclError:
-            pass
-        except ValueError:
-            pass
+            
+        
 
 Renderer().render()
