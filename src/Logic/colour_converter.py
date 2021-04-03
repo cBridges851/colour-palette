@@ -19,7 +19,7 @@ class ColourConverter:
             Returns:
                 rgb_values: list, each value for red, green and blue.
         """
-
+        hex_value = str(hex_value)
         hex_value = hex_value.lstrip('#')
         
         if len(hex_value) == 6:
@@ -65,7 +65,9 @@ class ColourConverter:
                     else:
                         return "Invalid"
             
-                
+                if str(current_unit).isdigit() == False:
+                    return "Invalid"
+
                 number_value += int(current_unit) * multiplier
                 multiplier = 16
 
