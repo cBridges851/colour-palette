@@ -2,7 +2,7 @@ import unittest
 from colour_converter import ColourConverter
 
 class TestColourConverterHexToRGB(unittest.TestCase):
-    def test_six_units(self):
+    def test_six_units_output(self):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#FFFFFF"), [255, 255, 255])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#000000"), [0, 0, 0])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#112233"), [17, 34, 51])
@@ -15,7 +15,7 @@ class TestColourConverterHexToRGB(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#4287F5"), [66, 135, 245])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#FCBA03"), [252, 186, 3])
     
-    def test_three_units(self):
+    def test_three_units_output(self):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#FFF"), [255, 255, 255])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#000"), [0, 0, 0])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#123"), [17, 34, 51])
@@ -95,4 +95,32 @@ class TestColourConverterHexToRGB(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb(123456), [18, 52, 86])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb(1.3), "Invalid")
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb({"a": 2}), "Invalid")
+        self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb(None), "Invalid")
 
+class TestColourConverterRGBToHex(unittest.TestCase):
+    def test_output(self):
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(255, 255, 255), "FFFFFF")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(0, 0, 0), "000000")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(208, 19, 126), "D0137E")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(35, 227, 59), "23E33B")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(104, 254, 238), "68FEEE")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(205, 75, 14), "CD4B0E")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(104, 108, 132), "686C84")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(61, 131, 121), "3D8379")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(116, 179, 26), "74B31A")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(165, 138, 69), "A58A45")
+
+    def test_data_types(self):
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(3.3, 1.4, 12.3), "Invalid")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(True, False, True), "Invalid")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex("12", "32", "87"), "0C2057")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(12, 32, 87), "0C2057")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(-12, -32, -87), "Invalid")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex("A", "B", "C"), "Invalid")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex("%", "4", "A"), "Invalid")
+        self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(None, None, None), "Invalid")
+
+    def test_number_of_parameters(self):
+        self.assertRaises(TypeError, ColourConverter().convert_rgb_to_hex, 1)
+        self.assertRaises(TypeError, ColourConverter().convert_rgb_to_hex, 1, 2)
+        self.assertRaises(TypeError, ColourConverter().convert_rgb_to_hex, 1, 2, 3, 4)

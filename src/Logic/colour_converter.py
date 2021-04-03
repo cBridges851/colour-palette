@@ -93,7 +93,7 @@ class ColourConverter:
             if not str(number).isdigit():
                 return "Invalid"
             
-            current_hex_value = hex(number)
+            current_hex_value = hex(int(number))
             current_hex_value = current_hex_value[2:].upper()
             
             if len(current_hex_value) == 1:
