@@ -2,7 +2,14 @@ import unittest
 from colour_converter import ColourConverter
 
 class TestColourConverterHexToRGB(unittest.TestCase):
+    """
+        The class that contains unit tests for the method that converts hex values
+        to RGB.
+    """
     def test_six_units_output(self):
+        """
+            Tests the output after hex codes of 6 units are passed in.
+        """
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#FFFFFF"), [255, 255, 255])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#000000"), [0, 0, 0])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#112233"), [17, 34, 51])
@@ -16,6 +23,9 @@ class TestColourConverterHexToRGB(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#FCBA03"), [252, 186, 3])
     
     def test_three_units_output(self):
+        """
+            Tests the output after hex codes of 3 units are passed in.
+        """
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#FFF"), [255, 255, 255])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#000"), [0, 0, 0])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#123"), [17, 34, 51])
@@ -28,6 +38,10 @@ class TestColourConverterHexToRGB(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#5D6"), [85, 221, 102])
 
     def test_without_hashtags(self):
+        """
+            Tests that values where hashtags are not included still provide an 
+            RGB answer.
+        """
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("FFFFFF"), [255, 255, 255])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("000000"), [0, 0, 0])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("112233"), [17, 34, 51])
@@ -52,6 +66,10 @@ class TestColourConverterHexToRGB(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("5D6"), [85, 221, 102])
 
     def test_casing(self):
+        """
+            Makes sure that a correct answer is still outputted no matter 
+            the case the user uses.
+        """
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#ABCDEF"), [171, 205, 239])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#abcdef"), [171, 205, 239])
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("ABCDEF"), [171, 205, 239])
@@ -62,6 +80,9 @@ class TestColourConverterHexToRGB(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("abc123"), [171, 193, 35])
 
     def test_invalid(self):
+        """
+            Makes sure that invalid inputs provide an "invalid" message.
+        """
         # Lengths
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("ABC1234"), "Invalid")
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#ABC1234"), "Invalid")
@@ -90,6 +111,9 @@ class TestColourConverterHexToRGB(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb("#%^$'#/"), "Invalid")
 
     def test_data_types(self):
+        """
+            Makes sure that certain data types output the "invalid" message
+        """
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb(True), "Invalid")
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb(False), "Invalid")
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb(123456), [18, 52, 86])
@@ -98,7 +122,14 @@ class TestColourConverterHexToRGB(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_hex_to_rgb(None), "Invalid")
 
 class TestColourConverterRGBToHex(unittest.TestCase):
+    """
+        The class that contains unit tests for the method that converts RGB values to
+        hex.
+    """
     def test_output(self):
+        """
+            Makes sure the correct value is outputted when valid inputs are given in.
+        """
         self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(255, 255, 255), "FFFFFF")
         self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(0, 0, 0), "000000")
         self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(208, 19, 126), "D0137E")
@@ -111,6 +142,9 @@ class TestColourConverterRGBToHex(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(165, 138, 69), "A58A45")
 
     def test_data_types(self):
+        """
+            Makes sure that certain data types inputted in gives the "invalid" output.
+        """
         self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(3.3, 1.4, 12.3), "Invalid")
         self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(True, False, True), "Invalid")
         self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex("12", "32", "87"), "0C2057")
@@ -121,6 +155,9 @@ class TestColourConverterRGBToHex(unittest.TestCase):
         self.assertAlmostEqual(ColourConverter().convert_rgb_to_hex(None, None, None), "Invalid")
 
     def test_number_of_parameters(self):
+        """
+            Makes sure that a type error is thrown when 3 parameters are not given in.
+        """
         self.assertRaises(TypeError, ColourConverter().convert_rgb_to_hex, 1)
         self.assertRaises(TypeError, ColourConverter().convert_rgb_to_hex, 1, 2)
         self.assertRaises(TypeError, ColourConverter().convert_rgb_to_hex, 1, 2, 3, 4)
