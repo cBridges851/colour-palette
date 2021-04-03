@@ -65,7 +65,7 @@ class ColourConverter:
                     else:
                         return "Invalid"
             
-                if str(current_unit).isdigit() == False:
+                if str(current_unit).isdigit() is False:
                     return "Invalid"
 
                 number_value += int(current_unit) * multiplier
