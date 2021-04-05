@@ -18,7 +18,11 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
 
         menu.addSeparator()
         self.setContextMenu(menu)
-        self.activated.connect(self.open_colour_palette_app)
+        self.activated.connect(self.double_click_icon)
+
+    def double_click_icon(self, reason):
+        if reason == self.DoubleClick:
+            self.open_colour_palette_app()
 
     def open_colour_palette_app(self):
         Renderer().render()
