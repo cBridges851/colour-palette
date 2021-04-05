@@ -14,7 +14,7 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
         open_colour_palette.triggered.connect(self.open_colour_palette_app)
         
         _exit = menu.addAction("Exit")
-        _exit.triggered.connect(lambda: sys.exit())
+        _exit.triggered.connect(sys.exit)
 
         menu.addSeparator()
         self.setContextMenu(menu)
