@@ -47,10 +47,11 @@ class Renderer():
         """
         self.root.title("Chrispy Colour Palette")
         self.root.iconbitmap("favicon.ico")
+        self.root.resizable(False, False)
         self.root.configure(
             bg="#1D1D1D", 
             padx="15", 
-            pady="25"
+            pady="25",
         )
 
     def render_hex_frame(self):
@@ -216,7 +217,3 @@ class Renderer():
             )
             self.hex_input.delete(0, "end")
             self.hex_input.insert(0, hex_value)
-            
-        
-
-Renderer().render()
