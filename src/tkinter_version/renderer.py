@@ -1,4 +1,5 @@
 import tkinter as tk
+from PIL import Image, ImageTk
 from colour_converter import ColourConverter
 
 class Renderer():
@@ -27,6 +28,10 @@ class Renderer():
         self.blue_label = tk.Label(self.rgb_frame, text="Blue:")
         self.blue_input = tk.Entry(self.rgb_frame)
         self.blue_input.bind("<KeyRelease>", self.rgb_updated)
+
+        clipboard_image = ImageTk.PhotoImage(Image.open("./clipboard.png").resize((50,50)), Image.ANTIALIAS)
+        self.hex_clipboard_button = tk.Button(self.hex_frame, image=clipboard_image, command=lambda: self.copy_to_clipboard("hex"))
+        self.rgb_clipboard_button = tk.Button(self.rgb_frame, text="Clipboard", )
 
         self.invalid_input_background = "#FF726F"
 
@@ -98,7 +103,6 @@ class Renderer():
         self.rgb_frame.grid(row=2, column=0)
         
     def render_rgb_colour_labels(self):
-
         labels = [self.red_label, self.green_label, self.blue_label]
         column_counter = 0
 
@@ -128,6 +132,13 @@ class Renderer():
             colour_input.grid(row=0, column=column_counter)
             column_counter += 2
 
+    def render_clipboard_button(self):
+        self.hex_clipboard_button.grid(row=1, column=2)
+
+    def copy_to_clipboard(self, mode):
+        print("Clipboard")
+        print(mode)
+
     def set_initial_values(self):
         """
             Sets the values that will be in the boxes when the user first opens the application.
@@ -151,6 +162,8 @@ class Renderer():
         self.render_rgb_frame()
         self.render_rgb_colour_labels()
         self.render_rgb_colour_inputs()
+
+        self.render_clipboard_button()
 
         self.set_initial_values()
         self.root.mainloop()
@@ -217,3 +230,5 @@ class Renderer():
             )
             self.hex_input.delete(0, "end")
             self.hex_input.insert(0, hex_value)
+
+Renderer().render()
