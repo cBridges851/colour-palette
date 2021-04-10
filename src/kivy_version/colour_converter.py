@@ -92,6 +92,9 @@ class ColourConverter:
         for number in red, green, blue:
             if not str(number).isdigit():
                 return "Invalid"
+
+            if int(number) > 255 or int(number) < 0:
+                return "Invalid"
             
             current_hex_value = hex(int(number))
             current_hex_value = current_hex_value[2:].upper()
