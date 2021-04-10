@@ -10,8 +10,22 @@
 
 # Whole Application
 <Interface>
+    # name: "rgb_to_hex"
+    red_input: red_input
+    green_input: green_input
+    blue_input: blue_input
+    output: output
+
     FloatLayout:
         size: root.width, root.height
+
+        Button:
+            text:"Hex To RGB"
+            font_size: 20
+            size_hint: 0.2, 0.1
+            pos_hint: {"x": 0.8, "y": 0.9}
+
+        
         Label:
             id: header_title
             text:"RGB To Hex"
@@ -43,14 +57,20 @@
             pos_hint: {"x": -0.3, "y": 0}
 
         TextInput:
-            id: green_input
+            id: blue_input
             pos_hint: {"x": 0.3, "y": 0.465}
 
         Button:
             text: "Convert!"
             pos_hint: {"x": 0.05, "y": 0.15}
             size_hint: 0.9, 0.2
+            on_press: root.convert_rgb_to_hex()
 
+        Label:
+            id: output
+            text: "Answer"
+            color: "#000000"
+            pos_hint: {"y": -0.42}
         # Hex section of the interface
         # GridLayout:
         #     id: hex_section
