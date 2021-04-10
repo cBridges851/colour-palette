@@ -11,7 +11,7 @@ class RGBToHex(Screen):
     red_input = ObjectProperty(None)
     green_input = ObjectProperty(None)
     blue_input = ObjectProperty(None)
-    output = ObjectProperty(None)
+    hex_output = ObjectProperty(None)
 
     def convert_rgb_to_hex(self):
         red = self.red_input
@@ -37,15 +37,44 @@ class RGBToHex(Screen):
 
         # Output on interface
         if hex_value == "Invalid":
-            self.output.color = "#FF0000"
-            self.output.text = hex_value
+            self.hex_output.color = "#FF0000"
+            self.hex_output.text = hex_value
             return
         
-        self.output.color = "#FFFFFF"
-        self.output.text = f"#{hex_value}"
+        self.hex_output.color = "#FFFFFF"
+        self.hex_output.text = f"#{hex_value}"
 
 class HexToRGB(Screen):
-    pass
+    hex_input = ObjectProperty(None)
+    red_output = ObjectProperty(None)
+    green_output = ObjectProperty(None)
+    blue_output = ObjectProperty(None)
+    error_output = ObjectProperty(None)
+    
+    def convert_hex_to_rgb(self):
+        hex_input_contents = self.hex_input.text
+
+        if len(hex_input_contents) == 6 or len(hex_input_contents) == 3:
+            self.hex_input.background_color = "#FFFFFF"
+        else:
+            self.hex_input.background_color = "#FF726F"
+
+        rgb_values = ColourConverter().convert_hex_to_rgb(hex_input_contents)
+        
+        if rgb_values == "Invalid":
+            self.error_output.color = "#FF0000"
+            self.red_output.color = "#000000"
+            self.green_output.color = "#000000"
+            self.blue_output.color = "#000000"
+        else:
+            self.error_output.color = "#000000"
+            self.red_output.text = f"Red: {rgb_values[0]}"
+            self.red_output.color = "#FFFFFF"
+            self.green_output.color = "#FFFFFF"
+            self.green_output.text = f"Green: {rgb_values[1]}"
+            self.blue_output.color = "#FFFFFF"
+            self.blue_output.text = f"Blue: {rgb_values[2]}"
+
 
 class WindowManager(ScreenManager):
     pass

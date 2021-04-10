@@ -17,7 +17,7 @@ WindowManager:
     red_input: red_input
     green_input: green_input
     blue_input: blue_input
-    output: output
+    hex_output: hex_output
 
     FloatLayout:
         size: root.width, root.height
@@ -34,7 +34,7 @@ WindowManager:
 
         
         Label:
-            id: header_title
+            id: rgb_to_hex_title
             text:"RGB To Hex"
             font_size: 40
             bold: True
@@ -74,29 +74,73 @@ WindowManager:
             on_press: root.convert_rgb_to_hex()
 
         Label:
-            id: output
+            id: hex_output
             text: "Answer"
             color: "#000000"
             pos_hint: {"y": -0.42}
 
 <HexToRGB>:
     name: "hex_to_rgb"
+    hex_input: hex_input
+    red_output: red_output
+    green_output: green_output
+    blue_output: blue_output
+    error_output: error_output
+    
     FloatLayout:
+        Button:
+            on_release:
+                app.root.current = "rgb_to_hex"
+                root.manager.transition.direction = "right"
+
+            text:"RGB To Hex"
+            font_size: 20
+            size_hint: 0.2, 0.1
+            pos_hint: {"y": 0.9}
+
         Label:
             id:hex_to_rgb_title
-            text: "Hex To RGB"
-            # Hex section of the interface
-            # GridLayout:
-            #     id: hex_section
-            #     cols: 2
-            #     # pos_hint: {"x": 2.3, "y": 2.5}
-            #     size_hint: 3, 0.4
+            text:"Hex To RGB"
+            font_size: 40
+            bold: True
+            pos_hint: {"y": 0.4}
 
-        #     Label:
-        #         text: "Hex:"
+        Label:
+            text: "Hex: #"
+            pos_hint: {"x": -0.3, "y": 0.25}
 
-        #     TextInput:
-        #         id: hex_value
-        #         multiline: False
-        #         size_hint: 3, 0.5
-        #         font_size: 26
+        TextInput:
+            id: hex_input
+            multiline: False
+            font_size: 26
+            pos_hint: {"x": 0.25, "y": 0.71}
+
+        Button:
+            text: "Convert!"
+            pos_hint: {"x": 0.05, "y": 0.4}
+            size_hint: 0.9, 0.2
+            on_press: root.convert_hex_to_rgb()
+
+        Label:
+            id: red_output
+            text:"Red: 255"
+            color: "#000000"
+            pos_hint: {"x": -0.3, "y": -0.25}
+
+        Label:
+            id: green_output
+            text:"Green: 255"
+            color: "#000000"
+            pos_hint: {"y": -0.25}
+
+        Label:
+            id: blue_output
+            text:"Blue: 255"
+            color: "#000000"
+            pos_hint: {"x": 0.3, "y": -0.25}
+
+        Label:
+            id: error_output
+            text: "Invalid"
+            color: "#000000"
+            pos_hint: {"y": -0.3}
