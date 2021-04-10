@@ -6,7 +6,7 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 class RGBToHex(Screen):
     """
-        Renders the interface of the application
+        Renders the interface that is for converting RGB values into hex.
     """
     red_input = ObjectProperty(None)
     green_input = ObjectProperty(None)
