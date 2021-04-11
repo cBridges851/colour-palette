@@ -29,11 +29,14 @@ class Renderer():
         self.blue_input = tk.Entry(self.rgb_frame)
         self.blue_input.bind("<KeyRelease>", self.rgb_updated)
 
-        clipboard_image = ImageTk.PhotoImage(Image.open("./clipboard.png").resize((50,50)), Image.ANTIALIAS)
-        self.hex_clipboard_button = tk.Button(self.hex_frame, image=clipboard_image, command=lambda: self.copy_to_clipboard("hex"))
-        self.rgb_clipboard_button = tk.Button(self.rgb_frame, text="Clipboard", )
+        self.clipboard_image = ImageTk.PhotoImage(Image.open("./clipboard.png").resize((30,30)), Image.ANTIALIAS)
+        self.hex_clipboard_button = tk.Button(self.hex_frame, image=self.clipboard_image, command=lambda: self.copy_to_clipboard("hex"))
+        self.rgb_clipboard_button = tk.Button(self.rgb_frame, image=self.clipboard_image, command=lambda: self.copy_to_clipboard("rgb"))
 
         self.invalid_input_background = "#FF726F"
+        self.default_background_colour = "#1D1D1D"
+        self.secondary_colour = "#FFFFFF"
+        self.default_font_size = 14
 
     def render_colour_box(self):
         """
@@ -41,8 +44,8 @@ class Renderer():
         """
         self.colour_box.configure(
             background="#FF0000", 
-            width="10", 
-            height="5"
+            width="14", 
+            height="7"
         )
         self.colour_box.grid(row=0, column=0)
 
@@ -54,7 +57,7 @@ class Renderer():
         self.root.iconbitmap("favicon.ico")
         self.root.resizable(False, False)
         self.root.configure(
-            bg="#1D1D1D", 
+            bg=self.default_background_colour, 
             padx="15", 
             pady="25",
         )
@@ -64,8 +67,9 @@ class Renderer():
             Renders the section that is for hex value input.
         """
         self.hex_frame.configure(
-            bg="#1D1D1D", 
-            fg="#FFFFFF",
+            bg=self.default_background_colour, 
+            fg=self.secondary_colour,
+            font=self.default_font_size,
             padx=10,
             pady=4
         )
@@ -76,8 +80,9 @@ class Renderer():
             Renders the label for the hex value input.
         """
         self.hex_label.configure(
-            bg="#1D1D1D", 
-            fg="#FFFFFF"
+            bg=self.default_background_colour, 
+            fg=self.secondary_colour,
+            font=self.default_font_size
         )
         self.hex_label.grid(row=1, column=0)
 
@@ -87,6 +92,7 @@ class Renderer():
         """
         self.hex_input.configure(
             width=8,
+            font=self.default_font_size
         )
         self.hex_input.grid(row=1, column=1)
 
@@ -95,8 +101,9 @@ class Renderer():
             Renders the section that is for RGB value input.
         """
         self.rgb_frame.configure(
-            bg="#1D1D1D", 
-            fg="#FFFFFF",
+            bg=self.default_background_colour, 
+            fg=self.secondary_colour,
+            font=self.default_font_size,
             padx=10,
             pady=4
         )
@@ -108,8 +115,9 @@ class Renderer():
 
         for label in labels:
             label.configure(
-                bg="#1D1D1D", 
-                fg="#FFFFFF"
+                bg=self.default_background_colour, 
+                fg=self.secondary_colour,
+                font=self.default_font_size
             )
             label.grid(row=0, column=column_counter)
             column_counter += 2
@@ -127,17 +135,23 @@ class Renderer():
 
         for colour_input in colour_inputs:
             colour_input.configure(
-                width=4
+                width=4,
+                font=self.default_font_size
             )
             colour_input.grid(row=0, column=column_counter)
             column_counter += 2
 
     def render_clipboard_button(self):
-        self.hex_clipboard_button.grid(row=1, column=2)
+        self.hex_clipboard_button.grid(row=1, column=2, padx=10)
+        self.rgb_clipboard_button.grid(row=0, column=6, padx=10)
 
     def copy_to_clipboard(self, mode):
-        print("Clipboard")
-        print(mode)
+        self.root.clipboard_clear()
+
+        if mode == "hex":
+            self.root.clipboard_append(f"#{self.hex_input.get()}")
+        else:
+            self.root.clipboard_append(f"{self.red_input.get()}, {self.green_input.get()}, {self.blue_input.get()}")
 
     def set_initial_values(self):
         """
@@ -173,7 +187,7 @@ class Renderer():
         rgb_values = ColourConverter().convert_hex_to_rgb(f"#{hex_value}")
         if rgb_values != "Invalid":
             self.hex_input.configure(
-                background="#FFFFFF"
+                background=self.secondary_colour
             )
             self.colour_box.configure(
                 background=f"#{hex_value}", 
@@ -216,13 +230,13 @@ class Renderer():
 
         if red.isdigit() and green.isdigit() and blue.isdigit():
             self.red_input.configure(
-                background="#FFFFFF"
+                background=self.secondary_colour
             )
             self.green_input.configure(
-                background="#FFFFFF"
+                background=self.secondary_colour
             )
             self.blue_input.configure(
-                background="#FFFFFF"
+                background=self.secondary_colour
             )
             hex_value = ColourConverter().convert_rgb_to_hex(red, green, blue)
             self.colour_box.configure(
