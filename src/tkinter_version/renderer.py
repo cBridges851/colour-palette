@@ -37,16 +37,17 @@ class Renderer():
         self.default_background_colour = "#1D1D1D"
         self.secondary_colour = "#FFFFFF"
         self.default_font_size = 14
+        self.colour_box_colour = "#FF0000"
 
     def render_colour_box(self):
         """
             Renders the box that shows the colour
         """
         self.colour_box.configure(
-            background="#FF0000", 
             width="14", 
             height="7"
         )
+        self.update_colour_box()
         self.colour_box.grid(row=0, column=0)
 
     def adjust_window(self):
@@ -182,6 +183,11 @@ class Renderer():
         self.set_initial_values()
         self.root.mainloop()
 
+    def update_colour_box(self):
+        self.colour_box.configure(
+            background=self.colour_box_colour
+        )
+
     def hex_updated(self, event):
         hex_value = self.hex_input.get()
         rgb_values = ColourConverter().convert_hex_to_rgb(f"#{hex_value}")
@@ -189,9 +195,10 @@ class Renderer():
             self.hex_input.configure(
                 background=self.secondary_colour
             )
-            self.colour_box.configure(
-                background=f"#{hex_value}", 
-            )
+
+            self.colour_box_colour = f"#{hex_value}"
+            self.update_colour_box()
+
             self.red_input.delete(0, "end")
             self.red_input.insert(0,rgb_values[0])
             self.green_input.delete(0, "end")
@@ -239,9 +246,8 @@ class Renderer():
                 background=self.secondary_colour
             )
             hex_value = ColourConverter().convert_rgb_to_hex(red, green, blue)
-            self.colour_box.configure(
-                background=f"#{hex_value}", 
-            )
+            self.colour_box_colour = f"#{hex_value}"
+            self.update_colour_box()
             self.hex_input.delete(0, "end")
             self.hex_input.insert(0, hex_value)
 
