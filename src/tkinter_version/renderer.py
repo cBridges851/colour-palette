@@ -59,8 +59,8 @@ class Renderer():
         self.root.resizable(False, False)
         self.root.configure(
             bg=self.default_background_colour, 
-            padx="15", 
-            pady="25",
+            padx=15, 
+            pady=25,
         )
 
     def render_hex_frame(self):
@@ -188,6 +188,11 @@ class Renderer():
             background=self.colour_box_colour
         )
 
+    def display_invalid_input(self, colour_input):
+        colour_input.configure(
+            background=self.invalid_input_background
+        )
+
     def hex_updated(self, event):
         hex_value = self.hex_input.get()
         rgb_values = ColourConverter().convert_hex_to_rgb(f"#{hex_value}")
@@ -216,35 +221,27 @@ class Renderer():
         green = self.green_input.get()
         blue = self.blue_input.get()
 
-        
-        if red.isdigit() is False or int(red) > 255:
-            self.red_input.configure(
-                background=self.invalid_input_background
-            )
-            return
-        
-        if green.isdigit() is False or int(green) > 255:
-            self.green_input.configure(
-                background=self.invalid_input_background
-            )
-            return
+        colour_inputs = [
+            self.red_input, 
+            self.green_input,
+            self.blue_input
+        ]
 
-        if blue.isdigit() is False or int(blue) > 255:
-            self.blue_input.configure(
-                background=self.invalid_input_background
-            )
-            return
+        valid_input = True
 
-        if red.isdigit() and green.isdigit() and blue.isdigit():
-            self.red_input.configure(
-                background=self.secondary_colour
-            )
-            self.green_input.configure(
-                background=self.secondary_colour
-            )
-            self.blue_input.configure(
-                background=self.secondary_colour
-            )
+        for colour_input in colour_inputs:
+            current_colour_value = colour_input.get()
+            print(current_colour_value)
+
+            if (current_colour_value.isdigit() is False) or (int(current_colour_value) > 255):
+                self.display_invalid_input(colour_input)
+                valid_input = False
+            else:
+                colour_input.configure(
+                    background=self.secondary_colour
+                )
+
+        if valid_input is True:
             hex_value = ColourConverter().convert_rgb_to_hex(red, green, blue)
             self.colour_box_colour = f"#{hex_value}"
             self.update_colour_box()
