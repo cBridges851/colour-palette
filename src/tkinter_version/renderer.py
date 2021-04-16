@@ -1,3 +1,4 @@
+from clipboard import Clipboard
 import tkinter as tk
 from PIL import Image, ImageTk
 from colour_converter import ColourConverter
@@ -30,8 +31,14 @@ class Renderer():
         self.blue_input.bind("<KeyRelease>", self.rgb_updated)
 
         self.clipboard_image = ImageTk.PhotoImage(Image.open("./clipboard.png").resize((30,30)), Image.ANTIALIAS)
-        self.hex_clipboard_button = tk.Button(self.hex_frame, image=self.clipboard_image, command=lambda: self.copy_to_clipboard("hex"))
-        self.rgb_clipboard_button = tk.Button(self.rgb_frame, image=self.clipboard_image, command=lambda: self.copy_to_clipboard("rgb"))
+        input_boxes = {
+            "red": self.red_input,
+            "green": self.green_input,
+            "blue": self.blue_input,
+            "hex": self.hex_input
+        }
+        self.hex_clipboard_button = tk.Button(self.hex_frame, image=self.clipboard_image, command=lambda: Clipboard().copy_to_clipboard(self.root, input_boxes, "hex"))
+        self.rgb_clipboard_button = tk.Button(self.rgb_frame, image=self.clipboard_image, command=lambda: Clipboard().copy_to_clipboard(self.root, input_boxes, "rgb"))
 
         self.invalid_input_background = "#FF726F"
         self.default_background_colour = "#1D1D1D"
@@ -146,13 +153,7 @@ class Renderer():
         self.hex_clipboard_button.grid(row=1, column=2, padx=10)
         self.rgb_clipboard_button.grid(row=0, column=6, padx=10)
 
-    def copy_to_clipboard(self, mode):
-        self.root.clipboard_clear()
-
-        if mode == "hex":
-            self.root.clipboard_append(f"#{self.hex_input.get()}")
-        else:
-            self.root.clipboard_append(f"{self.red_input.get()}, {self.green_input.get()}, {self.blue_input.get()}")
+    
 
     def set_initial_values(self):
         """
@@ -231,7 +232,6 @@ class Renderer():
 
         for colour_input in colour_inputs:
             current_colour_value = colour_input.get()
-            print(current_colour_value)
 
             if (current_colour_value.isdigit() is False) or (int(current_colour_value) > 255):
                 self.display_invalid_input(colour_input)
