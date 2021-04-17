@@ -58,7 +58,7 @@ class InterfaceUpdater:
 
         if valid_input is True:
             hex_value = ColourConverter().convert_rgb_to_hex(red, green, blue)
-            self.colour_box_colour = f"#{hex_value}"
+            colours["colour box"] = f"#{hex_value}"
             InterfaceUpdater.update_colour_box(self, colour_box, colours)
             input_boxes["hex"].delete(0, "end")
             input_boxes["hex"].insert(0, hex_value)
