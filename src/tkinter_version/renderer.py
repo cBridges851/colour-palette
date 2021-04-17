@@ -23,13 +23,13 @@ class Renderer():
         self.rgb_frame = tk.LabelFrame(self.root, text="RGB")
         self.red_label = tk.Label(self.rgb_frame, text="Red:")
         self.red_input = tk.Entry(self.rgb_frame)
-        self.red_input.bind("<KeyRelease>", self.rgb_updated)
+        self.red_input.bind("<KeyRelease>", self.update_rgb)
         self.green_label = tk.Label(self.rgb_frame, text="Green:")
         self.green_input = tk.Entry(self.rgb_frame)
-        self.green_input.bind("<KeyRelease>", self.rgb_updated)
+        self.green_input.bind("<KeyRelease>", self.update_rgb)
         self.blue_label = tk.Label(self.rgb_frame, text="Blue:")
         self.blue_input = tk.Entry(self.rgb_frame)
-        self.blue_input.bind("<KeyRelease>", self.rgb_updated)
+        self.blue_input.bind("<KeyRelease>", self.update_rgb)
 
         self.clipboard_image = ImageTk.PhotoImage(Image.open("./clipboard.png").resize((30,30)), Image.ANTIALIAS)
         self.input_boxes = {
@@ -53,6 +53,9 @@ class Renderer():
 
     def update_hex(self, event):
         InterfaceUpdater().hex_updated(self.input_boxes, self.colour_box, self.colours)
+
+    def update_rgb(self, event):
+        InterfaceUpdater().rgb_updated(self.input_boxes, self.colour_box, self.colours)
 
     def render_colour_box(self):
         """
@@ -191,43 +194,5 @@ class Renderer():
 
         self.set_initial_values()
         self.root.mainloop()
-
-    
-
-    def display_invalid_input(self, colour_input):
-        colour_input.configure(
-            background=self.invalid_input_background
-        )
-
-    def rgb_updated(self, event):
-        red = self.red_input.get()
-        green = self.green_input.get()
-        blue = self.blue_input.get()
-
-        colour_inputs = [
-            self.red_input, 
-            self.green_input,
-            self.blue_input
-        ]
-
-        valid_input = True
-
-        for colour_input in colour_inputs:
-            current_colour_value = colour_input.get()
-
-            if (current_colour_value.isdigit() is False) or (int(current_colour_value) > 255):
-                self.display_invalid_input(colour_input)
-                valid_input = False
-            else:
-                colour_input.configure(
-                    background=self.secondary_colour
-                )
-
-        if valid_input is True:
-            hex_value = ColourConverter().convert_rgb_to_hex(red, green, blue)
-            self.colour_box_colour = f"#{hex_value}"
-            InterfaceUpdater.update_colour_box(self, self.colour_box)
-            self.hex_input.delete(0, "end")
-            self.hex_input.insert(0, hex_value)
 
 Renderer().render()
