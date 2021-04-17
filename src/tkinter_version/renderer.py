@@ -1,4 +1,7 @@
+from interface_updater import InterfaceUpdater
+from clipboard import Clipboard
 import tkinter as tk
+from PIL import Image, ImageTk
 from colour_converter import ColourConverter
 
 class Renderer():
@@ -15,30 +18,54 @@ class Renderer():
         self.hex_frame = tk.LabelFrame(self.root, text="Hex")
         self.hex_label = tk.Label(self.hex_frame, text="Hex: #")
         self.hex_input = tk.Entry(self.hex_frame)
-        self.hex_input.bind("<KeyRelease>", self.hex_updated)
+        self.hex_input.bind("<KeyRelease>", self.update_hex)
 
         self.rgb_frame = tk.LabelFrame(self.root, text="RGB")
         self.red_label = tk.Label(self.rgb_frame, text="Red:")
         self.red_input = tk.Entry(self.rgb_frame)
-        self.red_input.bind("<KeyRelease>", self.rgb_updated)
+        self.red_input.bind("<KeyRelease>", self.update_rgb)
         self.green_label = tk.Label(self.rgb_frame, text="Green:")
         self.green_input = tk.Entry(self.rgb_frame)
-        self.green_input.bind("<KeyRelease>", self.rgb_updated)
+        self.green_input.bind("<KeyRelease>", self.update_rgb)
         self.blue_label = tk.Label(self.rgb_frame, text="Blue:")
         self.blue_input = tk.Entry(self.rgb_frame)
-        self.blue_input.bind("<KeyRelease>", self.rgb_updated)
+        self.blue_input.bind("<KeyRelease>", self.update_rgb)
 
-        self.invalid_input_background = "#FF726F"
+        self.clipboard_image = ImageTk.PhotoImage(Image.open("./clipboard.png").resize((30,30)), Image.ANTIALIAS)
+        self.input_boxes = {
+            "red": self.red_input,
+            "green": self.green_input,
+            "blue": self.blue_input,
+            "hex": self.hex_input
+        }
+
+        self.hex_clipboard_button = tk.Button(self.hex_frame, image=self.clipboard_image, command=lambda: Clipboard().copy_to_clipboard(self.root, self.input_boxes, "hex"))
+        self.rgb_clipboard_button = tk.Button(self.rgb_frame, image=self.clipboard_image, command=lambda: Clipboard().copy_to_clipboard(self.root, self.input_boxes, "rgb"))
+
+        self.colours = {
+            "invalid input": "#FF726F",
+            "default background": "#1D1D1D",
+            "secondary": "#FFFFFF",
+            "colour box": "#FF0000"
+        }
+
+        self.default_font_size = 14
+
+    def update_hex(self, event):
+        InterfaceUpdater().hex_updated(self.input_boxes, self.colour_box, self.colours)
+
+    def update_rgb(self, event):
+        InterfaceUpdater().rgb_updated(self.input_boxes, self.colour_box, self.colours)
 
     def render_colour_box(self):
         """
             Renders the box that shows the colour
         """
         self.colour_box.configure(
-            background="#FF0000", 
-            width="10", 
-            height="5"
+            width=14, 
+            height=7
         )
+        InterfaceUpdater.update_colour_box(self, self.colour_box, self.colours)
         self.colour_box.grid(row=0, column=0)
 
     def adjust_window(self):
@@ -49,9 +76,9 @@ class Renderer():
         self.root.iconbitmap("favicon.ico")
         self.root.resizable(False, False)
         self.root.configure(
-            bg="#1D1D1D", 
-            padx="15", 
-            pady="25",
+            bg=self.colours["default background"], 
+            padx=15, 
+            pady=25,
         )
 
     def render_hex_frame(self):
@@ -59,8 +86,9 @@ class Renderer():
             Renders the section that is for hex value input.
         """
         self.hex_frame.configure(
-            bg="#1D1D1D", 
-            fg="#FFFFFF",
+            bg=self.colours["default background"], 
+            fg=self.colours["secondary"],
+            font=self.default_font_size,
             padx=10,
             pady=4
         )
@@ -71,8 +99,9 @@ class Renderer():
             Renders the label for the hex value input.
         """
         self.hex_label.configure(
-            bg="#1D1D1D", 
-            fg="#FFFFFF"
+            bg=self.colours["default background"], 
+            fg=self.colours["secondary"],
+            font=self.default_font_size
         )
         self.hex_label.grid(row=1, column=0)
 
@@ -82,6 +111,7 @@ class Renderer():
         """
         self.hex_input.configure(
             width=8,
+            font=self.default_font_size
         )
         self.hex_input.grid(row=1, column=1)
 
@@ -90,22 +120,23 @@ class Renderer():
             Renders the section that is for RGB value input.
         """
         self.rgb_frame.configure(
-            bg="#1D1D1D", 
-            fg="#FFFFFF",
+            bg=self.colours["default background"], 
+            fg=self.colours["secondary"],
+            font=self.default_font_size,
             padx=10,
             pady=4
         )
         self.rgb_frame.grid(row=2, column=0)
         
     def render_rgb_colour_labels(self):
-
         labels = [self.red_label, self.green_label, self.blue_label]
         column_counter = 0
 
         for label in labels:
             label.configure(
-                bg="#1D1D1D", 
-                fg="#FFFFFF"
+                bg=self.colours["default background"], 
+                fg=self.colours["secondary"],
+                font=self.default_font_size
             )
             label.grid(row=0, column=column_counter)
             column_counter += 2
@@ -123,10 +154,15 @@ class Renderer():
 
         for colour_input in colour_inputs:
             colour_input.configure(
-                width=4
+                width=4,
+                font=self.default_font_size
             )
             colour_input.grid(row=0, column=column_counter)
             column_counter += 2
+
+    def render_clipboard_button(self):
+        self.hex_clipboard_button.grid(row=1, column=2, padx=10)
+        self.rgb_clipboard_button.grid(row=0, column=6, padx=10)
 
     def set_initial_values(self):
         """
@@ -152,68 +188,9 @@ class Renderer():
         self.render_rgb_colour_labels()
         self.render_rgb_colour_inputs()
 
+        self.render_clipboard_button()
+
         self.set_initial_values()
         self.root.mainloop()
 
-    def hex_updated(self, event):
-        hex_value = self.hex_input.get()
-        rgb_values = ColourConverter().convert_hex_to_rgb(f"#{hex_value}")
-        if rgb_values != "Invalid":
-            self.hex_input.configure(
-                background="#FFFFFF"
-            )
-            self.colour_box.configure(
-                background=f"#{hex_value}", 
-            )
-            self.red_input.delete(0, "end")
-            self.red_input.insert(0,rgb_values[0])
-            self.green_input.delete(0, "end")
-            self.green_input.insert(0, rgb_values[1])
-            self.blue_input.delete(0, "end")
-            self.blue_input.insert(0, rgb_values[2])
-        else:
-            self.hex_input.configure(
-                background=self.invalid_input_background
-            )
-        
-
-    def rgb_updated(self, event):
-        red = self.red_input.get()
-        green = self.green_input.get()
-        blue = self.blue_input.get()
-
-        
-        if red.isdigit() is False or int(red) > 255:
-            self.red_input.configure(
-                background=self.invalid_input_background
-            )
-            return
-        
-        if green.isdigit() is False or int(green) > 255:
-            self.green_input.configure(
-                background=self.invalid_input_background
-            )
-            return
-
-        if blue.isdigit() is False or int(blue) > 255:
-            self.blue_input.configure(
-                background=self.invalid_input_background
-            )
-            return
-
-        if red.isdigit() and green.isdigit() and blue.isdigit():
-            self.red_input.configure(
-                background="#FFFFFF"
-            )
-            self.green_input.configure(
-                background="#FFFFFF"
-            )
-            self.blue_input.configure(
-                background="#FFFFFF"
-            )
-            hex_value = ColourConverter().convert_rgb_to_hex(red, green, blue)
-            self.colour_box.configure(
-                background=f"#{hex_value}", 
-            )
-            self.hex_input.delete(0, "end")
-            self.hex_input.insert(0, hex_value)
+Renderer().render()
