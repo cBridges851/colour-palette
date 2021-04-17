@@ -62,8 +62,8 @@ class Renderer():
             Renders the box that shows the colour
         """
         self.colour_box.configure(
-            width="14", 
-            height="7"
+            width=14, 
+            height=7
         )
         InterfaceUpdater.update_colour_box(self, self.colour_box, self.colours)
         self.colour_box.grid(row=0, column=0)
