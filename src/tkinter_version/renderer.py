@@ -164,8 +164,6 @@ class Renderer():
         self.hex_clipboard_button.grid(row=1, column=2, padx=10)
         self.rgb_clipboard_button.grid(row=0, column=6, padx=10)
 
-    
-
     def set_initial_values(self):
         """
             Sets the values that will be in the boxes when the user first opens the application.
