@@ -1,17 +1,41 @@
 from colour_converter import ColourConverter
 
 class InterfaceUpdater:
+    """
+        The class that is responsible for updating the UI
+    """
     def update_colour_box(self, colour_box, colours):
+        """
+            The method that updates the box which displays the inputted colour
+            Args:
+                colour_box: Label, the box which displays the colour inputted
+                colours: object, the main colours used in the application
+        """
         colour_box.configure(
             background=colours["colour box"]
         )
 
     def display_invalid_input(self, colour_input, colours):
+        """
+            The method responsible for indicating when there has been an invalid
+            input.
+            Args:
+                colour_input: Entry, the input box where the user has inputted an invalid value into
+                colours: object, the main colours for the application
+        """
         colour_input.configure(
             background=colours["invalid input"]
         )
 
     def hex_updated(self, input_boxes, colour_box, colours):
+        """
+            The method that is called when the hex input box has been inputted to, meaning the 
+            RGB boxes are changed.
+            Args:
+                input_boxes: list, contains all the input boxes in the application
+                colour_box: Label, the box which displays the colour inputted
+                colours: object, the main colours for the application
+        """
         hex_value = input_boxes["hex"].get()
         rgb_values = ColourConverter().convert_hex_to_rgb(f"#{hex_value}")
 
@@ -33,6 +57,14 @@ class InterfaceUpdater:
             self.display_invalid_input(input_boxes["hex"], colours)
 
     def rgb_updated(self, input_boxes, colour_box, colours):
+        """
+            The method that is called when an RGB input box has been inputted to, meaning the 
+            hex box is changed.
+            Args:
+                input_boxes: list, contains all the input boxes in the application
+                colour_box: Label, the box which displays the colour inputted
+                colours: object, the main colours for the application
+        """
         red = input_boxes["red"].get()
         green = input_boxes["green"].get()
         blue = input_boxes["blue"].get()

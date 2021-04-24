@@ -52,9 +52,15 @@ class Renderer():
         self.default_font_size = 14
 
     def update_hex(self, event):
+        """
+            The method that is called when the hex input box has been updated.
+        """
         InterfaceUpdater().hex_updated(self.input_boxes, self.colour_box, self.colours)
 
     def update_rgb(self, event):
+        """
+            The method that is called when a RGB box has been updated.
+        """
         InterfaceUpdater().rgb_updated(self.input_boxes, self.colour_box, self.colours)
 
     def render_colour_box(self):
@@ -129,6 +135,9 @@ class Renderer():
         self.rgb_frame.grid(row=2, column=0)
         
     def render_rgb_colour_labels(self):
+        """
+            Renders the labels for red, green and blue inputs
+        """
         labels = [self.red_label, self.green_label, self.blue_label]
         column_counter = 0
 
@@ -161,6 +170,9 @@ class Renderer():
             column_counter += 2
 
     def render_clipboard_button(self):
+        """
+            Renders the clipboard button
+        """
         self.hex_clipboard_button.grid(row=1, column=2, padx=10)
         self.rgb_clipboard_button.grid(row=0, column=6, padx=10)
 
