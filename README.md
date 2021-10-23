@@ -7,3 +7,6 @@ I tend to need hex codes when I'm working on styling websites, and sometimes I j
 
 ## Tech/Framework Used
 Python - using Tkinter and Kivy for the graphical user interfaces. unittest has been used to write the unit tests for the logic, and PySide2 to allow the program to be opened via the system tray.
+
+## Contributing
+If you have any ideas for features or come across any bugs you'd like to fix, feel free to create an issue! I'll review it and assign you to it as soon as I can :)
